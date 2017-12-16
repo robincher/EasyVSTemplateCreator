@@ -28,18 +28,27 @@ import (
 func main() {
 	args := os.Args
 
+	var createProject = setupMappedFunctions()
+
 	if len(args) > 2 {
 		var newProjectName = args[1]
-		log("deleting any existing template directory...")
+		//log("deleting any existing template directory...")
 
-		if isAlphanumeric(newProjectName) {
-			if strings.ToLower(args[2]) == "go" {
-				createGoProject(newProjectName)
-			} else if strings.ToLower(args[2]) == "rust" {
-				createRustProject(newProjectName)
-			} else {
+		/*
+			handles any invalid entry for project type
+			and prints help message
+		*/
+		defer func() {
+			if r := recover(); r != nil {
 				printHelp()
 			}
+		}()
+
+		if isAlphanumeric(newProjectName) {
+
+			var projectType = strings.ToLower(args[2])
+			createProject[projectType](newProjectName)
+
 		} else {
 			printHelp()
 		}
