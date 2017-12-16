@@ -81,3 +81,61 @@ func pullGoRepo() bool {
 
 	return true
 }
+
+func createTypeScriptProject(newProjectName string) {
+	deleteExistingGoDirectory()
+	log("cloning github template")
+	if pullTSRepo() {
+		log("cloning done, renaming")
+		//allow a pause as I've encountered directory lock in windows
+		time.Sleep(time.Millisecond * 200)
+		log("removing git")
+		purgeExistingGitDirectory()
+		renameRepo("TypeScriptVSCodeTemplate", newProjectName)
+		log("renaming done")
+	} else {
+		log("error occured")
+	}
+
+}
+
+func pullTSRepo() bool {
+	var cmd = "git"
+	var args = []string{"clone", "https://github.com/rebooting/TypeScriptVSCodeTemplate"}
+	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
+		log(string(cmdout))
+		log(err.Error())
+		return false
+	}
+
+	return true
+}
+
+func createJavaScriptProject(newProjectName string) {
+	deleteExistingGoDirectory()
+	log("cloning github template")
+	if pullJSRepo() {
+		log("cloning done, renaming")
+		//allow a pause as I've encountered directory lock in windows
+		time.Sleep(time.Millisecond * 200)
+		log("removing git")
+		purgeExistingGitDirectory()
+		renameRepo("JsWebDeVSCodeTemplate", newProjectName)
+		log("renaming done")
+	} else {
+		log("error occured")
+	}
+
+}
+
+func pullJSRepo() bool {
+	var cmd = "git"
+	var args = []string{"clone", "https://github.com/rebooting/JsWebDeVSCodeTemplate"}
+	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
+		log(string(cmdout))
+		log(err.Error())
+		return false
+	}
+
+	return true
+}

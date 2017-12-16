@@ -50,7 +50,7 @@ func main() {
 }
 
 func printHelp() {
-	fmt.Println("easycreate <project> <go/rust>")
+	fmt.Println("easycreate <project> <golang/rust/ts/js>")
 }
 
 /*

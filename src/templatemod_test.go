@@ -31,3 +31,29 @@ func Test_createGoProject(t *testing.T) {
 	}
 
 }
+
+func Test_createTypeScript(t *testing.T) {
+	os.RemoveAll("Test_TSGitClone")
+	createTypeScriptProject("Test_TSGitClone")
+	_, err := os.Stat("Test_TSGitClone")
+	fmt.Println("Testing TS Cloning")
+	if err == nil {
+		os.RemoveAll("Test_TSGitClone")
+	} else {
+		t.Error("Failed")
+	}
+
+}
+
+func Test_createJavaScriptProject(t *testing.T) {
+	os.RemoveAll("Test_JSGitClone")
+	createJavaScriptProject("Test_JSGitClone")
+	_, err := os.Stat("Test_JSGitClone")
+	fmt.Println("Testing JS Cloning")
+	if err == nil {
+		os.RemoveAll("Test_JSGitClone")
+	} else {
+		t.Error("Failed")
+	}
+
+}
