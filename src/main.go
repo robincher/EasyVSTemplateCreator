@@ -21,9 +21,7 @@ Copyrights 2017 Alvin Ng
 import (
 	"fmt"
 	"os"
-	"os/exec"
 	"strings"
-	"time"
 	"unicode"
 )
 
@@ -51,77 +49,8 @@ func main() {
 
 }
 
-func createRustProject(newProjectName string) {
-	deleteExistingRustDirectory()
-	log("cloning github template")
-	if pullRustRepo() {
-		log("cloning done, renaming")
-		//allow a pause as I've encountered directory lock in windows
-		time.Sleep(time.Millisecond * 200)
-		log("removing git")
-		purgeExistingGitDirectory()
-		renameRepo("RustVSCodeTemplate", newProjectName)
-		log("renaming done")
-	} else {
-		log("error occured")
-	}
-
-}
-
-func createGoProject(newProjectName string) {
-	deleteExistingGoDirectory()
-	log("cloning github template")
-	if pullGoRepo() {
-		log("cloning done, renaming")
-		//allow a pause as I've encountered directory lock in windows
-		time.Sleep(time.Millisecond * 200)
-		log("removing git")
-		purgeExistingGitDirectory()
-		renameRepo("VSCodeGoLangStarterTemplate", newProjectName)
-		log("renaming done")
-	} else {
-		log("error occured")
-	}
-
-}
-
 func printHelp() {
 	fmt.Println("easycreate <project> <go/rust>")
-}
-func pullGoRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/RoteErde/VSCodeGoLangStarterTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
-}
-
-func pullRustRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/RoteErde/RustVSCodeTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
-}
-
-func renameRepo(templateName string, newName string) bool {
-
-	//if err := os.Rename("VSCodeGoLangStarterTemplate", newName); err != nil {
-	if err := os.Rename(templateName, newName); err != nil {
-		log("failed to rename")
-		log(err.Error())
-		return false
-	}
-
-	return true
 }
 
 /*
@@ -133,33 +62,6 @@ func isAlphanumeric(foldername string) bool {
 		if !unicode.IsDigit(character) && !unicode.IsLetter(character) {
 			return false
 		}
-	}
-	return true
-}
-
-/*
-remove current cached directory (in case previous operations failed)
-*/
-func deleteExistingGoDirectory() bool {
-	if err := os.RemoveAll("VSCodeGoLangStarterTemplate"); err != nil {
-		log(err.Error())
-		return false
-	}
-	return true
-}
-
-func deleteExistingRustDirectory() bool {
-	if err := os.RemoveAll("RustVSCodeTemplate"); err != nil {
-		log(err.Error())
-		return false
-	}
-	return true
-}
-
-func purgeExistingGitDirectory() bool {
-	if err := os.RemoveAll("VSCodeGoLangStarterTemplate/.git"); err != nil {
-		log(err.Error())
-		return false
 	}
 	return true
 }
