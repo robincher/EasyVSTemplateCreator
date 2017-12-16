@@ -32,8 +32,6 @@ func main() {
 
 	if len(args) > 2 {
 		var newProjectName = args[1]
-		//log("deleting any existing template directory...")
-
 		/*
 			handles any invalid entry for project type
 			and prints help message
@@ -45,10 +43,8 @@ func main() {
 		}()
 
 		if isAlphanumeric(newProjectName) {
-
 			var projectType = strings.ToLower(args[2])
 			createProject[projectType](newProjectName)
-
 		} else {
 			printHelp()
 		}
