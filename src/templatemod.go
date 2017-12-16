@@ -19,6 +19,8 @@ func setupMappedFunctions() map[string]sub {
 		// add more templates here
 		"golang": createGoProject,
 		"rust":   createRustProject,
+		"ts":     createTypeScriptProject,
+		"js":     createJavaScriptProject,
 	}
 
 	return mappedFunctions
