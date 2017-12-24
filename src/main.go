@@ -44,7 +44,7 @@ func main() {
 
 		if isAlphanumeric(newProjectName) {
 			var projectType = strings.ToLower(args[2])
-			createProject[projectType](newProjectName)
+			createProject[projectType](newProjectName,projectType)
 		} else {
 			printHelp()
 		}

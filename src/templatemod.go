@@ -3,6 +3,7 @@ package main
 import (
 	"os/exec"
 	"time"
+	"fmt"
 )
 
 /**
@@ -12,7 +13,7 @@ Logic for cloning
 */
 
 // function prototype for map
-type sub func(string)
+type sub func(string,string)
 
 func setupMappedFunctions() map[string]sub {
 	mappedFunctions := map[string]sub{
@@ -26,10 +27,35 @@ func setupMappedFunctions() map[string]sub {
 	return mappedFunctions
 }
 
-func createRustProject(newProjectName string) {
+func pullTemplateRepo(projectType string) bool {
+	var cmd = "git"
+	var args []string
+	switch projectType {
+	case "golang":
+		args = []string{"clone", "https://github.com/RoteErde/VSCodeGoLangStarterTemplate"}
+	case "rust":
+		args = []string{"clone", "https://github.com/RoteErde/RustVSCodeTemplate"}
+	case"ts":
+		args = []string{"clone", "https://github.com/rebooting/TypeScriptVSCodeTemplate"}
+	case"js":
+		args = []string{"clone", "https://github.com/rebooting/JsWebDeVSCodeTemplate"}
+	default:
+		fmt.Println("No valid repository specify")
+		return false
+	}
+
+	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
+		log(string(cmdout))
+		log(err.Error())
+		return false
+	}
+	return true
+}
+
+func createRustProject(newProjectName string, projectType string) {
 	deleteExistingRustDirectory()
 	log("cloning github template")
-	if pullRustRepo() {
+	if pullTemplateRepo(projectType) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
@@ -43,22 +69,10 @@ func createRustProject(newProjectName string) {
 
 }
 
-func pullRustRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/RoteErde/RustVSCodeTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
-}
-
-func createGoProject(newProjectName string) {
+func createGoProject(newProjectName string, projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullGoRepo() {
+	if pullTemplateRepo(projectType) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
@@ -72,22 +86,10 @@ func createGoProject(newProjectName string) {
 
 }
 
-func pullGoRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/RoteErde/VSCodeGoLangStarterTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
-}
-
-func createTypeScriptProject(newProjectName string) {
+func createTypeScriptProject(newProjectName string,  projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullTSRepo() {
+	if pullTemplateRepo(projectType) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
@@ -101,22 +103,10 @@ func createTypeScriptProject(newProjectName string) {
 
 }
 
-func pullTSRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/rebooting/TypeScriptVSCodeTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
-}
-
-func createJavaScriptProject(newProjectName string) {
+func createJavaScriptProject(newProjectName string, projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullJSRepo() {
+	if pullTemplateRepo(projectType) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
@@ -128,16 +118,4 @@ func createJavaScriptProject(newProjectName string) {
 		log("error occured")
 	}
 
-}
-
-func pullJSRepo() bool {
-	var cmd = "git"
-	var args = []string{"clone", "https://github.com/rebooting/JsWebDeVSCodeTemplate"}
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
-
-	return true
 }
