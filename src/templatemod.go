@@ -27,21 +27,22 @@ func setupMappedFunctions() map[string]sub {
 	return mappedFunctions
 }
 
-func pullTemplateRepo(projectType string) bool {
+func pullTemplateRepo(projectType string,  newProjectName string) bool {
 	var cmd = "git"
 	var args []string
+
 	switch projectType {
-	case "golang":
-		args = []string{"clone", "https://github.com/RoteErde/VSCodeGoLangStarterTemplate"}
-	case "rust":
-		args = []string{"clone", "https://github.com/RoteErde/RustVSCodeTemplate"}
-	case"ts":
-		args = []string{"clone", "https://github.com/rebooting/TypeScriptVSCodeTemplate"}
-	case"js":
-		args = []string{"clone", "https://github.com/rebooting/JsWebDeVSCodeTemplate"}
-	default:
-		fmt.Println("No valid repository specify")
-		return false
+		case "golang":
+			args = []string{"clone", "https://github.com/RoteErde/VSCodeGoLangStarterTemplate", newProjectName}
+		case "rust":
+			args = []string{"clone", "https://github.com/RoteErde/RustVSCodeTemplate", newProjectName}
+		case"ts":
+			args = []string{"clone", "https://github.com/rebooting/TypeScriptVSCodeTemplate", newProjectName}
+		case"js":
+			args = []string{"clone", "https://github.com/rebooting/JsWebDeVSCodeTemplate", newProjectName}
+		default:
+			fmt.Println("No valid repository specify")
+			return false
 	}
 
 	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
@@ -55,14 +56,12 @@ func pullTemplateRepo(projectType string) bool {
 func createRustProject(newProjectName string, projectType string) {
 	deleteExistingRustDirectory()
 	log("cloning github template")
-	if pullTemplateRepo(projectType) {
+	if pullTemplateRepo(projectType,  newProjectName) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
 		log("removing git")
 		purgeExistingGitDirectory()
-		renameRepo("RustVSCodeTemplate", newProjectName)
-		log("renaming done")
 	} else {
 		log("error occured")
 	}
@@ -72,14 +71,12 @@ func createRustProject(newProjectName string, projectType string) {
 func createGoProject(newProjectName string, projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullTemplateRepo(projectType) {
+	if pullTemplateRepo(projectType, newProjectName) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
 		log("removing git")
 		purgeExistingGitDirectory()
-		renameRepo("VSCodeGoLangStarterTemplate", newProjectName)
-		log("renaming done")
 	} else {
 		log("error occured")
 	}
@@ -89,14 +86,12 @@ func createGoProject(newProjectName string, projectType string) {
 func createTypeScriptProject(newProjectName string,  projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullTemplateRepo(projectType) {
+	if pullTemplateRepo(projectType, newProjectName) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
 		log("removing git")
 		purgeExistingGitDirectory()
-		renameRepo("TypeScriptVSCodeTemplate", newProjectName)
-		log("renaming done")
 	} else {
 		log("error occured")
 	}
@@ -106,14 +101,12 @@ func createTypeScriptProject(newProjectName string,  projectType string) {
 func createJavaScriptProject(newProjectName string, projectType string) {
 	deleteExistingGoDirectory()
 	log("cloning github template")
-	if pullTemplateRepo(projectType) {
+	if pullTemplateRepo(projectType, newProjectName) {
 		log("cloning done, renaming")
 		//allow a pause as I've encountered directory lock in windows
 		time.Sleep(time.Millisecond * 200)
 		log("removing git")
 		purgeExistingGitDirectory()
-		renameRepo("JsWebDeVSCodeTemplate", newProjectName)
-		log("renaming done")
 	} else {
 		log("error occured")
 	}
