@@ -8,7 +8,7 @@ import (
 
 func Test_createRustProject(t *testing.T) {
 	os.RemoveAll("Test_RustLangGitClone")
-	createRustProject("Test_RustLangGitClone")
+	createRustProject("Test_RustLangGitClone", "rust")
 	_, err := os.Stat("Test_RustLangGitClone")
 	fmt.Println("Testing Rust Cloning")
 	if err == nil {
@@ -21,7 +21,7 @@ func Test_createRustProject(t *testing.T) {
 
 func Test_createGoProject(t *testing.T) {
 	os.RemoveAll("Test_GoLangGitClone")
-	createGoProject("Test_GoLangGitClone")
+	createGoProject("Test_GoLangGitClone", "golang")
 	_, err := os.Stat("Test_GoLangGitClone")
 	fmt.Println("Testing Go Cloning")
 	if err == nil {
@@ -34,7 +34,7 @@ func Test_createGoProject(t *testing.T) {
 
 func Test_createTypeScript(t *testing.T) {
 	os.RemoveAll("Test_TSGitClone")
-	createTypeScriptProject("Test_TSGitClone")
+	createTypeScriptProject("Test_TSGitClone", "ts")
 	_, err := os.Stat("Test_TSGitClone")
 	fmt.Println("Testing TS Cloning")
 	if err == nil {
@@ -47,7 +47,7 @@ func Test_createTypeScript(t *testing.T) {
 
 func Test_createJavaScriptProject(t *testing.T) {
 	os.RemoveAll("Test_JSGitClone")
-	createJavaScriptProject("Test_JSGitClone")
+	createJavaScriptProject("Test_JSGitClone", "js")
 	_, err := os.Stat("Test_JSGitClone")
 	fmt.Println("Testing JS Cloning")
 	if err == nil {
