@@ -1,6 +1,9 @@
 package main
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
 /*
 remove current cached directory (in case previous operations failed)
@@ -21,8 +24,9 @@ func deleteExistingRustDirectory() bool {
 	return true
 }
 
-func purgeExistingGitDirectory() bool {
-	if err := os.RemoveAll("VSCodeGoLangStarterTemplate/.git"); err != nil {
+func purgeExistingGitDirectory(newProjectName string) bool {
+	projPath := strings.Join([]string{newProjectName, "/.git"}, "")
+	if err := os.RemoveAll(projPath); err != nil {
 		log(err.Error())
 		return false
 	}
