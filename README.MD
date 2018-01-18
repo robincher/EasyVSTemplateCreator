@@ -32,5 +32,5 @@ go build -o ./bin/output.exe ./src
 
 * **projectName** : The project name of the template. The executable will pull the template and renamed it to the projectName you specify. 
 
-* **projectTyupe** : Project type, currently supported values are '**golang**', '**rust**', '**ts**' and '**js**'
+* **projectType** : Project type, currently supported values are '**golang**', '**rust**', '**ts**' and '**js**'
 
