@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os/exec"
 	"time"
+
+	"gopkg.in/src-d/go-git.v4"
 )
 
 /**
@@ -28,7 +29,7 @@ func setupMappedFunctions() map[string]sub {
 }
 
 func pullTemplateRepo(projectType string, newProjectName string) bool {
-	var cmd = "git"
+	//var cmd = "git"
 	var args []string
 
 	switch projectType {
@@ -45,11 +46,17 @@ func pullTemplateRepo(projectType string, newProjectName string) bool {
 		return false
 	}
 
-	if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
-		log(string(cmdout))
-		log(err.Error())
-		return false
-	}
+	git.PlainClone(newProjectName, false, &git.CloneOptions{
+		URL:               args[1],
+		RecurseSubmodules: git.DefaultSubmoduleRecursionDepth,
+	})
+	/*
+		if cmdout, err := exec.Command(cmd, args...).Output(); err != nil {
+			log(string(cmdout))
+			log(err.Error())
+			return false
+		}*/
+
 	return true
 }
 
